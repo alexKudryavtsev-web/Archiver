@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"errors"
 	"io"
 	"os"
 	"path/filepath"
@@ -11,21 +10,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var packCmd = &cobra.Command{
-	Use:   "pack",
-	Short: "Pack file",
-	Run:   pack,
+var unpackCmd = &cobra.Command{
+	Use:   "unpack",
+	Short: "Unpack file",
+	Run:   unpack,
 }
 
 func init() {
-	rootCmd.AddCommand(packCmd)
+	rootCmd.AddCommand(unpackCmd)
 }
 
-var packedExtension = "vlc"
+const unpackedExtension = "txt"
 
-var ErrEmptyPath = errors.New("path to file is not specified")
-
-func pack(cmd *cobra.Command, args []string) {
+func unpack(cmd *cobra.Command, args []string) {
 	if len(args) == 0 {
 		handleErr(ErrEmptyPath)
 	}
@@ -52,8 +49,8 @@ func pack(cmd *cobra.Command, args []string) {
 	}
 }
 
-func packedFileName(path string) string {
+func unpackedFileName(path string) string {
 	fileName := filepath.Base(path)
 
-	return strings.TrimSuffix(fileName, filepath.Ext(fileName)) + "." + packedExtension
+	return strings.TrimSuffix(fileName, filepath.Ext(fileName)) + "." + unpackedExtension
 }
